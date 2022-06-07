@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/frenchNewsFragment"
+        android:title="French News"
+        android:icon="@drawable/ic_french_news" />
+
+</menu>
