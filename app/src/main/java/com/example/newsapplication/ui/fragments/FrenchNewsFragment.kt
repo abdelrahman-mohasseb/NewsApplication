@@ -1,22 +1,31 @@
 package com.example.newsapplication.ui.fragments
 
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AbsListView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.newsapplication.NewsApplication
 import com.example.newsapplication.R
 import com.example.newsapplication.adapters.NewsAdapter
 import com.example.newsapplication.ui.MainActivity
 import com.example.newsapplication.ui.viewModel.NewsViewModel
 import com.example.newsapplication.util.Constants.Companion.QUERY_PAGE_SIZE
 import com.example.newsapplication.util.Resource
+import dagger.hilt.android.internal.Contexts
 import kotlinx.android.synthetic.main.fragment_french_news.*
 
 class FrenchNewsFragment : Fragment(R.layout.fragment_french_news) {
@@ -27,7 +36,7 @@ class FrenchNewsFragment : Fragment(R.layout.fragment_french_news) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MainActivity).viewModel
+        viewModel = ViewModelProvider(requireActivity()).get(NewsViewModel::class.java)
         setupRecyclerView()
 
 
@@ -126,4 +135,34 @@ class FrenchNewsFragment : Fragment(R.layout.fragment_french_news) {
         paginationProgressBar.visibility = View.VISIBLE
         isLoading= true
     }
+
+    /*private fun hasInternetConnection(context: Context): Boolean {
+        // we used the application context instead of activity context to respect the MVVM architecture
+        // and to make sure that we check connection as long as the application is nit killed
+        val connectivityManager = context.getSystemService<>(
+            Context.CONNECTIVITY_SERVICE
+        ) as ConnectivityManager
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val activeNetwork = connectivityManager.activeNetwork ?: return false
+            val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
+            return when {
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                else -> false
+            }
+        }
+        else {
+            @Suppress("DEPRECATION")
+            connectivityManager.activeNetworkInfo?.run {
+                return when(type) {
+                    ConnectivityManager.TYPE_WIFI -> true
+                    ConnectivityManager.TYPE_MOBILE -> true
+                    ConnectivityManager.TYPE_ETHERNET -> true
+                    else -> false
+                }
+            }
+        }
+        return false
+    }*/
 }

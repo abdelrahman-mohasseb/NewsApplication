@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.newsapplication.R
 import com.example.newsapplication.ui.MainActivity
@@ -20,7 +21,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MainActivity).viewModel
+        viewModel = ViewModelProvider(requireActivity()).get(NewsViewModel::class.java)
         val article = args.article
         webView.apply {
             webViewClient = WebViewClient()

@@ -1,7 +1,11 @@
 package com.example.newsapplication.repository
 
-import com.example.newsapplication.api.RetrofitInstance
+import com.example.newsapplication.model.NewsApiResponse
+import com.example.newsapplication.util.Resource
+import retrofit2.Response
 
-class NewsRepository {
-suspend fun getFrenchNews(countryCode : String, pageNumber : Int) = RetrofitInstance.api.getFrenchNews(countryCode,pageNumber)
+
+    // the inteface can be used for the tests (fake repository) or for the application (Default repository)
+interface NewsRepository {
+    suspend fun getFrenchNews(countryCode : String, pageNumber : Int): Resource<NewsApiResponse>
 }
